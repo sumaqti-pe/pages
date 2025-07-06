@@ -552,8 +552,13 @@
         },
       };
 
+      gantt.config.show_add = false;
+      gantt.config.dblclick_create = false;
+      gantt.config.click_create = false;
+      gantt.config.readonly = true; // todo será solo visual
+
+
       gantt.config.date_format = "%Y-%m-%d";
-      gantt.init("gantt_here");
 
       gantt.init("gantt_here");
       gantt.parse(tasks);
