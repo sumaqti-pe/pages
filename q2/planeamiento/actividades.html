@@ -1,0 +1,563 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta http-equiv="Content-type" content="text/html; charset=utf-8" />
+
+    <script src="https://cdn.dhtmlx.com/gantt/edge/dhtmlxgantt.js"></script>
+    <link
+      href="https://cdn.dhtmlx.com/gantt/edge/dhtmlxgantt.css"
+      rel="stylesheet"
+    />
+
+    <style>
+      html,
+      body {
+        height: 100%;
+        padding: 0;
+        margin: 0;
+        overflow: hidden;
+        font-family: sans-serif;
+      }
+    </style>
+  </head>
+  <body>
+    <div id="gantt_here" style="width: 100%; height: 100%"></div>
+
+    <script>
+      // Tareas
+      const tasks = {
+        data: [
+          {
+            id: 1,
+            text: "Git & Version Control Fundamentals",
+            start_date: "2025-07-07",
+            duration: 7,
+            progress: 0,
+            descripcion:
+              "Introducción práctica a Git y GitHub para establecer flujos de trabajo de control de versiones colaborativos.",
+            objective:
+              "Dominar commits, ramas, fusiones y pull-requests para asegurar código limpio y trazable.",
+            references: [
+              "https://www.atlassian.com/git/tutorials",
+              "https://www.youtube.com/watch?v=vA5TTz6BXhY",
+              "https://www.youtube.com/watch?v=zTjRZNkhiEU",
+            ],
+            subthemes: [
+              {
+                name: "CLI básica de Git",
+                descripcion:
+                  "Instalación, configuración y comandos esenciales (init, add, commit, push, pull).",
+                references: [
+                  "https://www.atlassian.com/git/tutorials",
+                  "https://www.youtube.com/watch?v=vA5TTz6BXhY",
+                ],
+              },
+              {
+                name: "Branching y Merging",
+                descripcion:
+                  "Flujos de trabajo feature-branch, merge vs rebase y resolución de conflictos.",
+                references: [
+                  "https://www.atlassian.com/git/tutorials",
+                  "https://www.youtube.com/watch?v=vA5TTz6BXhY",
+                ],
+              },
+              {
+                name: "Pull Requests y Code Review",
+                descripcion:
+                  "Buenas prácticas para revisar, aprobar y mantener historial limpio.",
+                references: [
+                  "https://www.atlassian.com/git/tutorials",
+                  "https://www.youtube.com/watch?v=zTjRZNkhiEU",
+                ],
+              },
+            ],
+          },
+          {
+            id: 2,
+            text: "Node.js Core & Asincronía",
+            start_date: "2025-07-14",
+            duration: 7,
+            progress: 0,
+            descripcion:
+              "Profundizar en el runtime de Node y su modelo de concurrencia.",
+            objective:
+              "Comprender el event-loop, callbacks, Promises y patrones de escalabilidad.",
+            references: [
+              "https://www.builder.io/blog/visual-guide-to-nodejs-event-loop",
+              "https://nodejs.org/en/learn/asynchronous-work/event-loop-timers-and-nexttick",
+              "https://www.youtube.com/playlist?list=PLTgRMOcmRb3O5Tko0Ki6n_apLWyNSw47l",
+            ],
+            subthemes: [
+              {
+                name: "Event Loop & Timers",
+                descripcion:
+                  "Ciclo de vida de tareas: phases, queue y microtasks.",
+                references: [
+                  "https://www.builder.io/blog/visual-guide-to-nodejs-event-loop",
+                ],
+              },
+              {
+                name: "Patrones Asíncronos",
+                descripcion:
+                  "Callbacks, Promises, async/await y manejo de errores.",
+                references: [
+                  "https://nodejs.org/en/learn/asynchronous-work/event-loop-timers-and-nexttick",
+                ],
+              },
+              {
+                name: "Cluster & Workers",
+                descripcion:
+                  "Escalar en multinúcleo con el módulo cluster y worker_threads.",
+                references: [
+                  "https://www.youtube.com/playlist?list=PLTgRMOcmRb3O5Tko0Ki6n_apLWyNSw47l",
+                ],
+              },
+            ],
+          },
+          {
+            id: 3,
+            text: "Express & Diseño de APIs REST",
+            start_date: "2025-07-21",
+            duration: 7,
+            progress: 0,
+            descripcion:
+              "Construcción de APIs seguras y mantenibles con Express.",
+            objective:
+              "Diseñar endpoints RESTful, middleware y validaciones de forma profesional.",
+            references: [
+              "https://blog.postman.com/how-to-create-a-rest-api-with-node-js-and-express/",
+              "https://dev.to/anticoder03/building-restful-apis-with-nodejs-and-express-step-by-step-tutorial-2oc6",
+              "https://www.youtube.com/watch?v=A7xG4_BCE6M",
+            ],
+            subthemes: [
+              {
+                name: "Routing & Middleware",
+                descripcion:
+                  "Estructura de rutas, controladores y capas de middleware.",
+                references: [
+                  "https://blog.postman.com/how-to-create-a-rest-api-with-node-js-and-express/",
+                ],
+              },
+              {
+                name: "Diseño RESTful",
+                descripcion:
+                  "Convenciones de recursos, verbos HTTP y versionado.",
+                references: [
+                  "https://dev.to/anticoder03/building-restful-apis-with-nodejs-and-express-step-by-step-tutorial-2oc6",
+                ],
+              },
+              {
+                name: "Manejo de Errores",
+                descripcion:
+                  "Middleware centralizado, validación y serialización de respuestas.",
+                references: ["https://www.youtube.com/watch?v=A7xG4_BCE6M"],
+              },
+            ],
+          },
+          {
+            id: 4,
+            text: "MySQL Avanzado & Optimización",
+            start_date: "2025-07-28",
+            duration: 7,
+            progress: 0,
+            descripcion:
+              "Prácticas de diseño de esquema y afinación de consultas.",
+            objective:
+              "Minimizar latencia, mejorar índices y dominar transacciones.",
+            references: [
+              "https://www.percona.com/blog/improving-mysql-query-performance/",
+              "https://airbyte.com/data-engineering-resources/optimizing-mysql-queries",
+              "https://www.youtube.com/watch?v=9ylj9NR0Lcg",
+            ],
+            subthemes: [
+              {
+                name: "Diseño de Índices",
+                descripcion: "Primary, composite y covering indexes.",
+                references: [
+                  "https://www.percona.com/blog/improving-mysql-query-performance/",
+                ],
+              },
+              {
+                name: "Query Plan y EXPLAIN",
+                descripcion:
+                  "Interpretar planes de ejecución y detectar cuellos de botella.",
+                references: [
+                  "https://airbyte.com/data-engineering-resources/optimizing-mysql-queries",
+                ],
+              },
+              {
+                name: "Transacciones & Locks",
+                descripcion: "ACID, aislamiento y bloqueo de registros/filas.",
+                references: ["https://www.youtube.com/watch?v=9ylj9NR0Lcg"],
+              },
+            ],
+          },
+          {
+            id: 5,
+            text: "PostgreSQL Fundamentals",
+            start_date: "2025-08-04",
+            duration: 7,
+            progress: 0,
+            descripcion: "Bases sólidas en PostgreSQL y comparación con MySQL.",
+            objective: "Crear esquemas, tipos avanzados y funciones PL/pgSQL.",
+            references: [
+              "https://www.youtube.com/watch?v=qw--VYLpxG4",
+              "https://medium.com/@parmarshyamsinh/getting-started-with-postgresql-a-beginners-guide-bf8d55fb2ef4",
+              "https://www.postgresql.org/docs/current/tutorial.html",
+            ],
+            subthemes: [
+              {
+                name: "Comandos Básicos psql",
+                descripcion: "Conexión, creación de tablas y CRUD.",
+                references: [
+                  "https://www.postgresql.org/docs/current/tutorial.html",
+                ],
+              },
+              {
+                name: "Tipos Avanzados",
+                descripcion: "JSONB, arrays y extensiones como PostGIS.",
+                references: [
+                  "https://medium.com/@parmarshyamsinh/getting-started-with-postgresql-a-beginners-guide-bf8d55fb2ef4",
+                ],
+              },
+              {
+                name: "PL/pgSQL Funciones",
+                descripcion:
+                  "Creación de funciones y triggers para lógica en BD.",
+                references: ["https://www.youtube.com/watch?v=qw--VYLpxG4"],
+              },
+            ],
+          },
+          {
+            id: 6,
+            text: "TypeScript para Full-Stack",
+            start_date: "2025-08-11",
+            duration: 7,
+            progress: 0,
+            descripcion: "Tipado estático para Node y React.",
+            objective:
+              "Aplicar generics, utility types y configuraciones de proyecto robustas.",
+            references: [
+              "https://www.youtube.com/watch?v=3mDny9XAgic",
+              "https://dev.to/alia5/advanced-typescript-types-explanations-and-cheatsheet-5chg",
+              "https://medium.com/@muhmdshanoob/mastering-advanced-typescript-typings-a-complete-guide-with-real-world-examples-9af3f60d0f12",
+            ],
+            subthemes: [
+              {
+                name: "Fundamentos de Tipos",
+                descripcion: "Types, interfaces y módulos.",
+                references: ["https://www.youtube.com/watch?v=3mDny9XAgic"],
+              },
+              {
+                name: "Generics & Utility Types",
+                descripcion: "Mapped, conditional y keyof/typeof.",
+                references: [
+                  "https://dev.to/alia5/advanced-typescript-types-explanations-and-cheatsheet-5chg",
+                ],
+              },
+              {
+                name: "Decorators y Metaprogramación",
+                descripcion:
+                  "Uso práctico de reflect-metadata y class-validator.",
+                references: [
+                  "https://medium.com/@muhmdshanoob/mastering-advanced-typescript-typings-a-complete-guide-with-real-world-examples-9af3f60d0f12",
+                ],
+              },
+            ],
+          },
+          {
+            id: 7,
+            text: "React Básico & Hooks",
+            start_date: "2025-08-18",
+            duration: 7,
+            progress: 0,
+            descripcion:
+              "Construcción de interfaces declarativas con componentes funcionales.",
+            objective: "Entender JSX, ciclo de vida y hooks fundamentales.",
+            references: [
+              "https://medium.com/@dan_abramov/making-sense-of-react-hooks-fdbde8803889",
+              "https://blog.logrocket.com/react-hooks-cheat-sheet-solutions-common-problems/",
+              "https://www.youtube.com/watch?v=3yrMcx02jXs",
+            ],
+            subthemes: [
+              {
+                name: "JSX & Componentes",
+                descripcion: "Sintaxis, props y renderizado condicional.",
+                references: [
+                  "https://medium.com/@dan_abramov/making-sense-of-react-hooks-fdbde8803889",
+                ],
+              },
+              {
+                name: "useState & useEffect",
+                descripcion: "Gestión de estado local y efectos secundarios.",
+                references: [
+                  "https://blog.logrocket.com/react-hooks-cheat-sheet-solutions-common-problems/",
+                ],
+              },
+              {
+                name: "Custom Hooks",
+                descripcion: "Reutilizar lógica y buenas prácticas.",
+                references: ["https://www.youtube.com/watch?v=3yrMcx02jXs"],
+              },
+            ],
+          },
+          {
+            id: 8,
+            text: "React Avanzado & State Management",
+            start_date: "2025-08-25",
+            duration: 7,
+            progress: 0,
+            descripcion:
+              "Escalabilidad de estado global con Context y Redux Toolkit.",
+            objective:
+              "Implementar flujos de datos predecibles y optimizar renders.",
+            references: [
+              "https://redux-toolkit.js.org/tutorials/quick-start",
+              "https://blog.logrocket.com/redux-toolkit-adoption-guide/",
+              "https://www.youtube.com/watch?v=3yrMcx02jXs",
+            ],
+            subthemes: [
+              {
+                name: "Context API",
+                descripcion: "Prop-drilling vs context y patrones compuestos.",
+                references: ["https://www.youtube.com/watch?v=3yrMcx02jXs"],
+              },
+              {
+                name: "Redux Toolkit",
+                descripcion: "Slices, RTK Query y middleware.",
+                references: [
+                  "https://redux-toolkit.js.org/tutorials/quick-start",
+                ],
+              },
+              {
+                name: "Performance Optimizations",
+                descripcion: "Memoización, lazy loading y Suspense.",
+                references: [
+                  "https://blog.logrocket.com/redux-toolkit-adoption-guide/",
+                ],
+              },
+            ],
+          },
+          {
+            id: 9,
+            text: "Docker & Containerización",
+            start_date: "2025-09-01",
+            duration: 7,
+            progress: 0,
+            descripcion: "Empaquetado reproducible de servicios con Docker.",
+            objective:
+              "Crear imágenes, orquestar contenedores y usar Docker Compose.",
+            references: [
+              "https://www.youtube.com/watch?v=pg19Z8LL06w",
+              "https://docker-curriculum.com/",
+              "https://www.docker.com/101-tutorial/",
+            ],
+            subthemes: [
+              {
+                name: "Imágenes & Contenedores",
+                descripcion: "Dockerfile, capas y registro de imágenes.",
+                references: ["https://docker-curriculum.com/"],
+              },
+              {
+                name: "Docker Compose",
+                descripcion: "Definir servicios y redes locales.",
+                references: ["https://www.docker.com/101-tutorial/"],
+              },
+              {
+                name: "CI/CD con Docker",
+                descripcion: "Integración en pipelines y multi-stage builds.",
+                references: ["https://www.youtube.com/watch?v=pg19Z8LL06w"],
+              },
+            ],
+          },
+          {
+            id: 10,
+            text: "Apache Kafka & Event Streaming",
+            start_date: "2025-09-08",
+            duration: 7,
+            progress: 0,
+            descripcion: "Procesamiento de eventos en tiempo real con Kafka.",
+            objective:
+              "Configurar topics, producers, consumers y comprender particiones.",
+            references: [
+              "https://www.youtube.com/watch?v=QkdkLdMBuL0",
+              "https://medium.com/nerd-for-tech/a-basic-introduction-to-kafka-a7d10a7776e6",
+              "https://developer.confluent.io/what-is-apache-kafka/",
+            ],
+            subthemes: [
+              {
+                name: "Topics & Partitions",
+                descripcion: "Modelo de logs, particionamiento y replicación.",
+                references: [
+                  "https://developer.confluent.io/what-is-apache-kafka/",
+                ],
+              },
+              {
+                name: "Producers & Consumers",
+                descripcion: "ACKs, delivery guarantees y consumer groups.",
+                references: [
+                  "https://medium.com/nerd-for-tech/a-basic-introduction-to-kafka-a7d10a7776e6",
+                ],
+              },
+              {
+                name: "Streams & Connect",
+                descripcion:
+                  "Procesamiento con Kafka Streams y conectores de datos.",
+                references: ["https://www.youtube.com/watch?v=QkdkLdMBuL0"],
+              },
+            ],
+          },
+          {
+            id: 11,
+            text: "AWS Fundamentos (IAM, Roles, S3)",
+            start_date: "2025-09-15",
+            duration: 7,
+            progress: 0,
+            descripcion: "Gestión de identidades y almacenamiento en la nube.",
+            objective: "Crear políticas IAM y operar buckets S3 con seguridad.",
+            references: [
+              "https://docs.aws.amazon.com/IAM/latest/UserGuide/tutorials.html",
+              "https://www.youtube.com/watch?v=tfU0JEZjcsg",
+              "https://www.datacamp.com/tutorial/aws-identity-and-access-management-iam-guide",
+            ],
+            subthemes: [
+              {
+                name: "IAM Users & Policies",
+                descripcion:
+                  "Principio de mínimo privilegio y roles delegados.",
+                references: [
+                  "https://docs.aws.amazon.com/IAM/latest/UserGuide/tutorials.html",
+                ],
+              },
+              {
+                name: "Buckets S3",
+                descripcion:
+                  "Versionado, lifecycle rules y static website hosting.",
+                references: ["https://www.youtube.com/watch?v=tfU0JEZjcsg"],
+              },
+              {
+                name: "Herramientas CLI & SDK",
+                descripcion: "Autenticación, perfiles y comandos esenciales.",
+                references: [
+                  "https://www.datacamp.com/tutorial/aws-identity-and-access-management-iam-guide",
+                ],
+              },
+            ],
+          },
+          {
+            id: 12,
+            text: "AWS Serverless (Lambda & SQS)",
+            start_date: "2025-09-22",
+            duration: 7,
+            progress: 0,
+            descripcion: "Computación sin servidores y colas de mensajería.",
+            objective:
+              "Desplegar funciones Lambda y desacoplar servicios con SQS.",
+            references: [
+              "https://www.youtube.com/watch?v=9-8eBPwYk4Q",
+              "https://docs.aws.amazon.com/AWSSimpleQueueService/latest/SQSDeveloperGuide/sqs-getting-started.html",
+              "https://medium.com/cloudfordummies/a-dummies-guide-tutorial-to-aws-sqs-b3431ad7be1d",
+            ],
+            subthemes: [
+              {
+                name: "AWS Lambda Basics",
+                descripcion: "Creación, desencadenadores y monitorización.",
+                references: ["https://www.youtube.com/watch?v=9-8eBPwYk4Q"],
+              },
+              {
+                name: "Amazon SQS",
+                descripcion:
+                  "Colas estándar vs FIFO, dead-letter queues y políticas de acceso.",
+                references: [
+                  "https://docs.aws.amazon.com/AWSSimpleQueueService/latest/SQSDeveloperGuide/sqs-getting-started.html",
+                ],
+              },
+              {
+                name: "Integración Event-Driven",
+                descripcion: "Orquestar flujos con Lambda → SQS → Lambda.",
+                references: [
+                  "https://medium.com/cloudfordummies/a-dummies-guide-tutorial-to-aws-sqs-b3431ad7be1d",
+                ],
+              },
+            ],
+          },
+          {
+            id: 13,
+            text: "Domain-Driven Design & Project Structure",
+            start_date: "2025-09-29",
+            duration: 7,
+            progress: 0,
+            descripcion:
+              "Organización de carpetas y diseño guiado por dominio para proyectos Node/React.",
+            objective:
+              "Separar capas, definir bounded contexts y aplicar clean architecture.",
+            references: [
+              "https://medium.com/@alessandro.traversi/domain-driven-design-ddd-with-node-js-organizing-your-application-60b3ec0c9efe",
+              "https://blog.logrocket.com/node-js-project-architecture-best-practices/",
+              "https://medium.com/@elaurichetoho/clean-architecture-with-nodejs-4a62a67b2bff",
+            ],
+            subthemes: [
+              {
+                name: "Bounded Contexts & Entities",
+                descripcion:
+                  "Identificación de dominios y separación estratégica.",
+                references: [
+                  "https://medium.com/@alessandro.traversi/domain-driven-design-ddd-with-node-js-organizing-your-application-60b3ec0c9efe",
+                ],
+              },
+              {
+                name: "Clean Architecture",
+                descripcion:
+                  "Capas de aplicación, dominio, infraestructura y presentación.",
+                references: [
+                  "https://medium.com/@elaurichetoho/clean-architecture-with-nodejs-4a62a67b2bff",
+                ],
+              },
+              {
+                name: "Estructura de Carpetas",
+                descripcion: "Patrones de módulos, servicios y tests.",
+                references: [
+                  "https://blog.logrocket.com/node-js-project-architecture-best-practices/",
+                ],
+              },
+            ],
+          },
+        ],
+        collections: {
+          links: [
+            {
+              id: 1,
+              source: 1,
+              target: 2,
+              type: "0",
+            },
+            {
+              id: 2,
+              source: 1,
+              target: 3,
+              type: "0",
+            },
+            {
+              id: 3,
+              source: 1,
+              target: 4,
+              type: "0",
+            },
+            {
+              id: 4,
+              source: 2,
+              target: 6,
+              type: "0",
+            },
+          ],
+        },
+      };
+
+      gantt.config.date_format = "%Y-%m-%d";
+      gantt.init("gantt_here");
+
+      gantt.init("gantt_here");
+      gantt.parse(tasks);
+    </script>
+  </body>
+</html>
